@@ -1,22 +1,22 @@
 async function init() {
-  const lastWorkout = await API.getLastWorkout();
-  console.log(lastWorkout);
+  const lastWorkout = await API.lastWorkoutadded();
+  console.log("Latest Workout:", lastWorkout);
 
   document
     .querySelector("a[href='/exercise?']")
     .setAttribute("href", `/exercise?id=${lastWorkout._id}`);
 
   const workoutSummary = {
-    date: formatDate(lastWorkout.day),
+    date: dateFormat(lastWorkout.day),
     totalDuration: lastWorkout.totalDuration,
     numExercises: lastWorkout.exercises.length,
-    ...tallyExercises(lastWorkout.exercises)
+    ...countExercises(lastWorkout.exercises)
   };
 
-  renderWorkoutSummary(workoutSummary);
+  workoutSummaryRender(workoutSummary);
 }
 
-function tallyExercises(exercises) {
+function countExercises(exercises) {
   const tallied = exercises.reduce((acc, curr) => {
     if (curr.type === "resistance") {
       acc.totalWeight = (acc.totalWeight || 0) + curr.weight;
@@ -30,7 +30,7 @@ function tallyExercises(exercises) {
   return tallied;
 }
 
-function formatDate(date) {
+function dateFormat(date) {
   const options = {
     weekday: "long",
     year: "numeric",
@@ -41,7 +41,7 @@ function formatDate(date) {
   return new Date(date).toLocaleDateString(options);
 }
 
-function renderWorkoutSummary(summary) {
+function workoutSummaryRender(summary) {
   const container = document.querySelector(".workout-stats");
 
   const workoutKeyMap = {
