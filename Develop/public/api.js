@@ -1,5 +1,5 @@
 const API = {
-  async getLastWorkout() {
+  async lastWorkoutadded() {
     // retrieves array of workouts
     const res = await fetch("/api/workouts");
     const json = await res.json();
@@ -7,7 +7,7 @@ const API = {
     // provides the last workout 
     return json[json.length - 1];
   },
-  async addExercise(data) {
+  async newExercise(data) {
     const id = location.search.split("=")[1];
 
     const res = await fetch("/api/workouts/" + id, {
@@ -20,7 +20,7 @@ const API = {
 
     return json;
   },
-  async createWorkout(data = {}) {
+  async newWorkout(data = {}) {
     const res = await fetch("/api/workouts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -33,7 +33,7 @@ const API = {
     return json;
   },
 
-  async getWorkoutsInRange() {
+  async workoutsRange() {
     const res = await fetch(`/api/workouts/range`);
     const json = await res.json();
     
